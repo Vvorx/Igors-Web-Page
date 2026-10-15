@@ -13,6 +13,19 @@ const posts = await getCollection("blog");
   <ul>
     {posts.map((post: CollectionEntry<"blog">) => (
       <li><a href={`/blog/${post.id}`}>{post.data.title}</a></li>
+      <p>{post.data.description}</p>
     ))}
   </ul>
 </BaseLayout>
+
+<style>
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+</style>
