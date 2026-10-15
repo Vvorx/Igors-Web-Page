@@ -13,14 +13,37 @@ const isHome = Astro.url.pathname === "/";
     <title>{title}</title>
   </head>
   <body>
+    <div class="ascii-rain" aria-hidden="true"></div>
     <div class="container">
       <slot />
- <footer>
-    {!isHome && <a href="/" class="return">| Return home |</a>}
-    <a href="mailto:igorkopka@proton.me">Email me!</a>
-    <a href="https://github.com/vvorx" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/igorkopka" target="_blank">LinkedIn</a>
-  </footer>
+      <footer>
+        {!isHome && <a href="/" class="return">| Return home |</a>}
+        <a href="mailto:igorkopka@proton.me">Email me!</a>
+        <a href="https://github.com/vvorx" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/igorkopka" target="_blank">LinkedIn</a>
+      </footer>
     </div>
   </body>
 </html>
+
+<script>
+  const rain = document.querySelector<HTMLElement>(".ascii-rain");
+  const characters = "01{}[]<>/\\|+-=*#@$%&";
+  const columnCount = 48;
+
+  if (rain) {
+    for (let column = 0; column < columnCount; column += 1) {
+      for (let character = 0; character < 20; character += 1) {
+        const glyph = document.createElement("span");
+        glyph.textContent =
+          characters[Math.floor(Math.random() * characters.length)];
+        glyph.style.setProperty("--column", String(column));
+        glyph.style.setProperty("--top", `${Math.random() * 120 - 20}%`);
+        glyph.style.setProperty("--duration", `${16 + Math.random() * 12}s`);
+        glyph.style.setProperty("--delay", `${Math.random() * -28}s`);
+        glyph.style.setProperty("--opacity", `${0.2 + Math.random() * 0.25}`);
+        rain.appendChild(glyph);
+      }
+    }
+  }
+</script>
