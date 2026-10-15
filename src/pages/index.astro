@@ -6,6 +6,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout title="Home | My Blog">
   <header>
     <h1>Igor's Web Page</h1>
+
+  <div class="timer">
+    <span id="days">0</span> days,
+    <span id="hours">00</span> hours,
+    <span id="minutes">00</span> minutes,
+    <span id="seconds">00</span> seconds
+  </div>
+
   </header>
 
   <main>
@@ -44,4 +52,34 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     gap: 12px;
   }
 
+  .timer {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+	margin-bottom: 20px;
+}
 </style>
+
+
+<script>
+  const targetDate = new Date("2028-01-01T00:00:00").getTime();
+
+  function updateCountdown() {
+    const now = Date.now();
+    const difference = targetDate - now;
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / (1000 * 60)) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    document.getElementById("days")!.textContent = String(days);
+    document.getElementById("hours")!.textContent = String(hours).padStart(2, "0");
+    document.getElementById("minutes")!.textContent = String(minutes).padStart(2, "0");
+    document.getElementById("seconds")!.textContent = String(seconds).padStart(2, "0");
+  }
+
+  updateCountdown();
+  const countdownInterval = window.setInterval(updateCountdown, 1000);
+</script>
+
