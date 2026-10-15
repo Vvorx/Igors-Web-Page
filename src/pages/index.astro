@@ -1,6 +1,13 @@
 
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const targetDate = new Date("2028-01-01T00:00:00").getTime();
+const initialDifference = Math.max(targetDate - Date.now(), 0);
+const initialDays = Math.floor(initialDifference / (1000 * 60 * 60 * 24));
+const initialHours = Math.floor((initialDifference / (1000 * 60 * 60)) % 24);
+const initialMinutes = Math.floor((initialDifference / (1000 * 60)) % 60);
+const initialSeconds = Math.floor((initialDifference / 1000) % 60);
 ---
 
 <BaseLayout title="Igor's Web Page">
@@ -8,10 +15,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <h1>Igor's Web Page</h1>
 
   <div class="timer">
-    <span id="days">0</span> days,
-    <span id="hours">00</span> hours,
-    <span id="minutes">00</span> minutes,
-    <span id="seconds">00</span> seconds
+    <span id="days">{initialDays}</span> days,
+    <span id="hours">{String(initialHours).padStart(2, "0")}</span> hours,
+    <span id="minutes">{String(initialMinutes).padStart(2, "0")}</span> minutes,
+    <span id="seconds">{String(initialSeconds).padStart(2, "0")}</span> seconds
   </div>
 
     <hr>
@@ -43,7 +50,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   a {
     font-size: 1.6rem;
 	text-decoration: none;
-	color: black
+	color: white;
   }
 
   .info {
@@ -68,7 +75,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   function updateCountdown() {
     const now = Date.now();
-    const difference = targetDate - now;
+    const difference = Math.max(targetDate - now, 0);
 
     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
     const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
@@ -84,4 +91,3 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   updateCountdown();
   const countdownInterval = window.setInterval(updateCountdown, 1000);
 </script>
-
