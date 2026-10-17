@@ -4,7 +4,8 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 
 const { title = "" } = Astro.props;
-const isHome = Astro.url.pathname === "/";
+const base = import.meta.env.BASE_URL;
+const isHome = Astro.url.pathname === base;
 ---
 
 <html lang="en">
@@ -19,7 +20,7 @@ const isHome = Astro.url.pathname === "/";
     <div class="container">
       <slot />
       <footer>
-        {!isHome && <a href="/" class="return">| Return home |</a>}
+        {!isHome && <a href={base} class="return">| Return home |</a>}
         <a href="mailto:igorkopka@proton.me">Email me!</a>
         <a href="https://github.com/vvorx" target="_blank">GitHub</a>
         <a href="https://linkedin.com/in/igorkopka" target="_blank">LinkedIn</a>
