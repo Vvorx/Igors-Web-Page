@@ -11,6 +11,15 @@ body {
   position: relative;
 }
 
+p {
+  font-size: 18px;
+  margin: 0;
+}
+
+a {
+  font-size: 23px;
+}
+
 .container {
   width: calc(100% - 40px);
   max-width: 900px;
