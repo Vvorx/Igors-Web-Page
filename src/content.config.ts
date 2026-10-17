@@ -13,8 +13,9 @@ const books = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/books" }),
   schema: z.object({
     title: z.string(),
-    rating: z.number().min(0).max(5),
-    date: z.number().optional(),
+    author: z.string(),
+    datefinished: z.string(),
+    link: z.string().url().optional(),
   }),
 });
 
@@ -22,7 +23,6 @@ const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
   schema: z.object({
     title: z.string(),
-    description: z.string().optional(),
     link: z.string().url().optional(),
   }),
 });

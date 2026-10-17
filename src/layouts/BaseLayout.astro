@@ -1,6 +1,7 @@
 
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 
 const { title = "" } = Astro.props;
 const isHome = Astro.url.pathname === "/";
@@ -10,10 +11,11 @@ const isHome = Astro.url.pathname === "/";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <ClientRouter />
     <title>{title}</title>
   </head>
   <body>
-    <div class="ascii-rain" aria-hidden="true"></div>
+    <div class="ascii-rain" aria-hidden="true" transition:persist="ascii-rain"></div>
     <div class="container">
       <slot />
       <footer>
@@ -30,18 +32,41 @@ const isHome = Astro.url.pathname === "/";
   const rain = document.querySelector<HTMLElement>(".ascii-rain");
   const characters = "01{}[]<>/\\|+-=*#@$%&";
   const columnCount = 48;
+  const glyphsPerColumn = 20;
+  const storageKey = "ascii-rain-started-at";
+  const now = Date.now();
+  const storedStart = sessionStorage.getItem(storageKey);
+  let startedAt = storedStart ? Number(storedStart) : now;
 
-  if (rain) {
+  if (!storedStart || !Number.isFinite(startedAt)) {
+    startedAt = now;
+    sessionStorage.setItem(storageKey, String(now));
+  }
+
+  if (rain && rain.childElementCount === 0) {
+    let seed = 9301;
+    const random = () => {
+      seed = (seed * 49297 + 233280) % 233280;
+      return seed / 233280;
+    };
+    const elapsed = now - startedAt;
+
     for (let column = 0; column < columnCount; column += 1) {
-      for (let character = 0; character < 20; character += 1) {
+      for (let character = 0; character < glyphsPerColumn; character += 1) {
         const glyph = document.createElement("span");
         glyph.textContent =
-          characters[Math.floor(Math.random() * characters.length)];
+          characters[Math.floor(random() * characters.length)];
+        const duration = 16 + random() * 12;
+        const phase = random() * 28;
+
         glyph.style.setProperty("--column", String(column));
-        glyph.style.setProperty("--top", `${Math.random() * 120 - 20}%`);
-        glyph.style.setProperty("--duration", `${16 + Math.random() * 12}s`);
-        glyph.style.setProperty("--delay", `${Math.random() * -28}s`);
-        glyph.style.setProperty("--opacity", `${0.2 + Math.random() * 0.25}`);
+        glyph.style.setProperty("--top", `${random() * 120 - 20}%`);
+        glyph.style.setProperty("--duration", `${duration}s`);
+        glyph.style.setProperty(
+          "--delay",
+          `-${(phase + elapsed / 1000) % duration}s`,
+        );
+        glyph.style.setProperty("--opacity", `${0.2 + random() * 0.25}`);
         rain.appendChild(glyph);
       }
     }

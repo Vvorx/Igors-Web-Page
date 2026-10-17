@@ -11,11 +11,16 @@ const posts = await getCollection("books");
     <h1>My Bookshelf</h1>
     <hr>
   </header>
-  <ul>
+  <ol reversed>
     {posts.map((post: CollectionEntry<"books">) => (
-      <li><a href={`/books/${post.id}`}>{post.data.title}</a></li>
-      <p>{post.data.date}</p>
-      <p>{post.data.rating}</p>
+      <li><a href={post.data.link}>{post.data.title}</a></li>
     ))}
-  </ul>
+  </ol>
 </BaseLayout>
+
+<style>
+  a {
+    font-size: 20px;
+  }
+
+</style>

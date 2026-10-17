@@ -3,6 +3,7 @@
   box-sizing: border-box;
   font-family: Garamond, "Times New Roman", Times, serif;
   color: #fff;
+  font-weight: 250;
 }
 
 body {
@@ -37,7 +38,6 @@ a {
 header {
   text-align: center;
   font-size: 28px;
-  font-weight: 550;
 }
 
 footer a {
