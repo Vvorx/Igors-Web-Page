@@ -15,8 +15,12 @@ const posts = await getCollection("projects");
 
   <ul>
     {posts.map((post: CollectionEntry<"projects">) => (
-      <li><a href={`/projects/${post.id}`}>{post.data.title}</a></li>
-      <p><a href={post.data.link} target="_blank" rel="noopener noreferrer">[Link]</a></p>
+      <>
+        <li><a href={`/projects/${post.id}`}>{post.data.title}</a></li>
+        {post.data.link && (
+          <p><a href={post.data.link} target="_blank" rel="noopener noreferrer">[Link]</a></p>
+        )}
+      </>
     ))}
   </ul>
 </BaseLayout>
