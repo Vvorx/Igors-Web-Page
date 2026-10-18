@@ -11,7 +11,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <h3>Education: BSc in Computer Science, Blue Team Level 1, Security+</h3>
   <h3>Hobbies: Reading, Calisthenics, Hiking, Homelabbing, Learning, Large-scale Automation in Video Games</h3>
   <h3>Currently: Working as D365 Support at Forza Foods while investing all of my free time into learning in order to break into the cyber world! If you have any opportunities lmk ;)</h3>
-  <img src="https://www.realmeye.com/s/a/img/wiki/i/DSVqdZo.png" alt="IFYKYK" style="width: 300px; height: 300px; margin-left: auto; margin-right: auto;">
+  <img src="https://www.realmeye.com/s/a/img/wiki/i/DSVqdZo.png" alt="IFYKYK">
 </BaseLayout>
 
 <style>
@@ -21,5 +21,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   h3 {
     margin-bottom: 15px;
+  }
+
+  img {
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 600px) {
+    img {
+      width: 200px;
+      height: 200px;
+    }
   }
 </style>
