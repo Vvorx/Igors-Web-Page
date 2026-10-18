@@ -85,6 +85,7 @@ hr {
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  contain: layout paint;
   color: #fff;
   font-family: "Courier New", monospace;
   font-size: clamp(0.85rem, 1.5vw, 1.15rem);
@@ -101,10 +102,10 @@ hr {
 
 @keyframes ascii-fall {
   from {
-    transform: translateY(-20vh);
+    transform: translate3d(0, -20vh, 0);
   }
 
   to {
-    transform: translateY(140vh);
+    transform: translate3d(0, 140vh, 0);
   }
 }
