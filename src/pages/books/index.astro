@@ -1,9 +1,39 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
 
 import { getCollection, type CollectionEntry } from "astro:content";
 
-const posts = await getCollection("books");
+const parseDateFinished = (date: string | undefined) => {
+  if (!date) {
+    return new Date(0);
+  }
+
+  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(date);
+
+  if (!match) {
+    throw new Error(`Invalid book finish date "${date}". Use DD/MM/YYYY.`);
+  }
+
+  const [, day, month, year] = match;
+  const parsedDate = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+
+  if (
+    parsedDate.getUTCFullYear() !== Number(year) ||
+    parsedDate.getUTCMonth() !== Number(month) - 1 ||
+    parsedDate.getUTCDate() !== Number(day)
+  ) {
+    throw new Error(`Invalid book finish date "${date}".`);
+  }
+
+  return parsedDate;
+};
+
+const posts = (await getCollection("books")).sort(
+  (a, b) =>
+    parseDateFinished(b.data.datefinished).getTime() -
+    parseDateFinished(a.data.datefinished).getTime(),
+);
 ---
 
 <BaseLayout title="Bookshelf">
@@ -11,23 +41,35 @@ const posts = await getCollection("books");
     <h1>My Bookshelf</h1>
     <hr>
   </header>
-  <ol reversed>
+  <ol>
     {posts.map((post: CollectionEntry<"books">) => (
       <li>
-        <span>{post.data.title}</span>
-        <span class="author">by {post.data.author}</span>
-        <time datetime={post.data.datefinished}>Finished reading on {post.data.datefinished}</time>
+        <Image src={post.data.cover} alt={`Cover of ${post.data.title}`} />
+        <div class="book-details">
+            <span class="title">{post.data.title}</span>
+            <span class="author">by {post.data.author}</span>
+            {post.data.datefinished && (
+              <time datetime={post.data.datefinished}>Finished reading on {post.data.datefinished}</time>
+            )}
+        </div>  
       </li>
     ))}
   </ol>
 </BaseLayout>
 
 <style>
+
   li {
     display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .book-details {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 4px;
-    font-size: 20px;
   }
 
   time {
@@ -39,4 +81,8 @@ const posts = await getCollection("books");
     font-style: italic;
   }
 
+  img {
+    width: 80px;
+    height: auto;
+  }
 </style>

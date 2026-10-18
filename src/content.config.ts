@@ -11,11 +11,11 @@ const blog = defineCollection({
 
 const books = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/books" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     author: z.string(),
-    datefinished: z.string(),
-    link: z.string().url().optional(),
+    datefinished: z.string().optional(),
+    cover: image(),
   }),
 });
 
@@ -28,4 +28,3 @@ const projects = defineCollection({
 });
 
 export const collections = { blog, books, projects };
-
