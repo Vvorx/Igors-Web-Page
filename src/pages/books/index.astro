@@ -9,19 +9,34 @@ const posts = await getCollection("books");
 <BaseLayout title="Bookshelf">
   <header>
     <h1>My Bookshelf</h1>
-    <h1>WIP</h1>
     <hr>
   </header>
   <ol reversed>
     {posts.map((post: CollectionEntry<"books">) => (
-      <li><a href={post.data.link}>{post.data.title}</a></li>
+      <li>
+        <span>{post.data.title}</span>
+        <span class="author">by {post.data.author}</span>
+        <time datetime={post.data.datefinished}>Finished reading on {post.data.datefinished}</time>
+      </li>
     ))}
   </ol>
 </BaseLayout>
 
 <style>
-  a {
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     font-size: 20px;
+  }
+
+  time {
+    font-size: 14px;
+  }
+
+  .author {
+    font-size: 16px;
+    font-style: italic;
   }
 
 </style>
