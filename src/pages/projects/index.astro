@@ -16,12 +16,12 @@ const base = import.meta.env.BASE_URL;
 
   <ul>
     {posts.map((post: CollectionEntry<"projects">) => (
-      <>
+      <div>
         <li><a href={`${base}projects/${post.id}`}>{post.data.title}</a></li>
         {post.data.link && (
           <p><a href={post.data.link} target="_blank" rel="noopener noreferrer">[Link]</a></p>
         )}
-      </>
+      </div>
     ))}
   </ul>
 </BaseLayout>
@@ -30,6 +30,7 @@ const base = import.meta.env.BASE_URL;
   ul {
     gap: 4px;
     display: flex;
+    flex-direction: column;
   }
 
   p a {
